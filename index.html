@@ -278,11 +278,11 @@
     tbody tr:last-child td { border-bottom: 0; }
 
     th:nth-child(1), td:nth-child(1) { width: 15%; }
-    th:nth-child(2), td:nth-child(2) { width: 11%; }
-    th:nth-child(3), td:nth-child(3) { width: 13%; }
-    th:nth-child(4), td:nth-child(4) { width: 29%; }
-    th:nth-child(5), td:nth-child(5) { width: 11%; }
-    th:nth-child(6), td:nth-child(6) { width: 11%; }
+    th:nth-child(2), td:nth-child(2) { width: 32%; }
+    th:nth-child(3), td:nth-child(3) { width: 10%; }
+    th:nth-child(4), td:nth-child(4) { width: 13%; }
+    th:nth-child(5), td:nth-child(5) { width: 10%; }
+    th:nth-child(6), td:nth-child(6) { width: 10%; }
     th:nth-child(7), td:nth-child(7) { width: 10%; }
 
     .asset-name {
@@ -553,9 +553,9 @@
           <thead>
             <tr>
               <th class="sortable" data-sort="name">Name ↕</th>
+              <th>Description</th>
               <th class="sortable" data-sort="type">Type ↕</th>
               <th class="sortable" data-sort="glossary">Glossary ↕</th>
-              <th>Description</th>
               <th class="sortable" data-sort="status">Status ↕</th>
               <th class="sortable" data-sort="owner">Owner ↕</th>
               <th>Actions</th>
@@ -918,6 +918,17 @@
       });
 
       state.filtered.sort((a, b) => {
+        // When searching, prioritise matches in the asset name over matches
+        // that occur only in the description. The selected table sort is
+        // then applied within each relevance group.
+        if (query) {
+          const aNameMatch = String(a.name).toLowerCase().includes(query);
+          const bNameMatch = String(b.name).toLowerCase().includes(query);
+          const aRank = aNameMatch ? 0 : 1;
+          const bRank = bNameMatch ? 0 : 1;
+          if (aRank !== bRank) return aRank - bRank;
+        }
+
         const av = String(a[state.sortKey] ?? '').toLowerCase();
         const bv = String(b[state.sortKey] ?? '').toLowerCase();
         return av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' }) * state.sortDirection;
@@ -943,9 +954,9 @@
       els.rows.innerHTML = visible.map(asset => `
         <tr>
           <td><span class="asset-name">${highlight(asset.name)}</span></td>
+          <td>${highlight(asset.description)}</td>
           <td><span class="type-chip">${escapeHtml(asset.type)}</span></td>
           <td>${escapeHtml(asset.glossary)}</td>
-          <td>${highlight(asset.description)}</td>
           <td><span class="status-chip ${statusClass(asset.status)}">${escapeHtml(asset.status)}</span></td>
           <td>${escapeHtml(asset.owner)}</td>
           <td>
