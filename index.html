@@ -1,322 +1,1114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Business Glossary Demo</title>
-<style>
-  :root {
-    --bg: #f5f7fb;
-    --card: #ffffff;
-    --text: #1f2937;
-    --muted: #6b7280;
-    --line: #e5e7eb;
-    --accent: #3157d5;
-    --accent-soft: #eef2ff;
-    --good: #117a52;
-    --warn: #a65f00;
-    --danger: #b42318;
-    --shadow: 0 8px 24px rgba(31, 41, 55, 0.08);
-  }
-  * { box-sizing: border-box; }
-  html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  body { min-height:100vh; }
-  .shell { max-width: 1480px; margin:0 auto; padding:28px; }
-  .hero {
-    display:flex; align-items:center; justify-content:space-between; gap:24px;
-    background:linear-gradient(120deg,#1f3fa8,#3a63df 58%,#6b8cff);
-    color:white; border-radius:22px; padding:28px 32px; box-shadow:var(--shadow); margin-bottom:22px;
-  }
-  .hero h1 { margin:0 0 6px; font-size:30px; letter-spacing:-0.02em; }
-  .hero p { margin:0; opacity:.9; max-width:800px; }
-  .hero .badge { padding:9px 13px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.12); font-weight:700; white-space:nowrap; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collibra Business Glossary Demo</title>
+  <!-- Standalone GitHub Pages demo with 360 sample glossary assets -->
+  <style>
+    :root {
+      --collibra-deep: #004f4a;
+      --collibra-teal: #006b63;
+      --collibra-green: #7ac900;
+      --collibra-green-dark: #4f8f00;
+      --collibra-mint: #eaf7ef;
+      --ink: #12313f;
+      --muted: #5d7280;
+      --line: #dfe7ea;
+      --soft: #f5f8f9;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(9, 47, 53, 0.09);
+      --radius: 14px;
+    }
 
-  .top-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px; margin-bottom:22px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
-  .mini { padding:20px; }
-  .mini h3 { margin:0 0 14px; font-size:17px; }
-  .mini .sub { font-size:13px; color:var(--muted); margin-top:-8px; margin-bottom:14px; }
-  .mini-list { display:grid; gap:10px; }
-  .mini-item { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 12px; border:1px solid var(--line); border-radius:12px; background:#fbfcff; }
-  .mini-item .left { min-width:0; }
-  .mini-item .name { font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .mini-item .meta { font-size:12px; color:var(--muted); margin-top:3px; }
-  .pill { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:5px 8px; font-size:11px; font-weight:800; border:1px solid var(--line); white-space:nowrap; }
-  .pill.term { background:#eff6ff; color:#1d4ed8; }
-  .pill.acronym { background:#f5f3ff; color:#6d28d9; }
-  .pill.glossary { background:#ecfdf3; color:#087443; }
-  .pill.approved { background:#ecfdf3; color:#087443; }
-  .pill.draft { background:#fff7ed; color:#9a3412; }
-  .pill.review { background:#fffbea; color:#8a5b00; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f3f7f8;
+      color: var(--ink);
+    }
 
-  .actions { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
-  button { font:inherit; }
-  .action-btn, .primary-btn, .ghost-btn {
-    border:none; border-radius:11px; cursor:pointer; font-weight:800; transition:.15s ease;
-  }
-  .action-btn { padding:11px 12px; background:var(--accent-soft); color:var(--accent); }
-  .action-btn:hover, .primary-btn:hover, .ghost-btn:hover { transform:translateY(-1px); }
-  .primary-btn { padding:11px 16px; background:var(--accent); color:white; }
-  .ghost-btn { padding:10px 14px; background:#fff; color:#374151; border:1px solid var(--line); }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
 
-  .section { padding:22px; }
-  .section-title { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:16px; }
-  .section-title h2 { margin:0; font-size:21px; }
-  .section-title p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      padding: 26px 42px 36px;
+      background:
+        radial-gradient(circle at 78% 25%, rgba(122, 201, 0, .20) 0 9px, transparent 10px),
+        radial-gradient(circle at 82% 58%, rgba(122, 201, 0, .14) 0 8px, transparent 9px),
+        radial-gradient(circle at 88% 22%, rgba(122, 201, 0, .14) 0 7px, transparent 8px),
+        linear-gradient(120deg, #00524b 0%, #00655b 58%, #00806f 100%);
+      color: white;
+    }
 
-  .search-row { display:grid; grid-template-columns: minmax(280px,1.8fr) repeat(4, minmax(140px,.7fr)); gap:10px; margin-bottom:14px; }
-  .field { position:relative; }
-  input, select { width:100%; border:1px solid var(--line); border-radius:11px; padding:11px 12px; background:white; color:var(--text); outline:none; }
-  input:focus, select:focus { border-color:#9cb0ff; box-shadow:0 0 0 3px rgba(49,87,213,.10); }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 5%;
+      top: 10px;
+      width: 330px;
+      height: 210px;
+      opacity: .55;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 26px, rgba(122,201,0,.22) 26px 40px, transparent 40px 66px);
+      border-radius: 40px;
+      transform: skewX(-7deg);
+    }
 
-  .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:14px; }
-  table { width:100%; border-collapse:collapse; min-width:1050px; }
-  thead th { position:sticky; top:0; z-index:1; background:#f8fafc; color:#4b5563; font-size:12px; text-transform:uppercase; letter-spacing:.04em; text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); cursor:pointer; }
-  tbody td { padding:14px; border-bottom:1px solid #edf0f4; vertical-align:top; }
-  tbody tr:hover { background:#fbfdff; }
-  tbody tr:last-child td { border-bottom:none; }
-  .asset-name { font-weight:800; }
-  .asset-desc { color:#4b5563; line-height:1.42; max-width:480px; }
-  mark { background:#fff0a8; padding:0 2px; border-radius:3px; }
-  .owner { font-weight:700; }
-  .muted { color:var(--muted); }
-  .status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
-  .status-approved { background:#22a06b; }
-  .status-review { background:#e5a700; }
-  .status-draft { background:#f97316; }
-  .footer-row { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:14px; color:var(--muted); font-size:13px; }
-  .pagination { display:flex; gap:8px; align-items:center; }
-  .page-btn { border:1px solid var(--line); background:white; padding:7px 10px; border-radius:9px; cursor:pointer; }
-  .page-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+    .brand-row, .hero-copy { position: relative; z-index: 2; }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-  .modal-backdrop { position:fixed; inset:0; background:rgba(15,23,42,.42); display:none; align-items:center; justify-content:center; padding:24px; z-index:50; }
-  .modal { width:min(620px,96vw); background:white; border-radius:18px; padding:22px; box-shadow:0 30px 90px rgba(15,23,42,.28); }
-  .modal h3 { margin:0 0 8px; }
-  .modal p { color:var(--muted); line-height:1.5; }
-  .modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
-  .modal-actions { display:flex; justify-content:flex-end; gap:10px; }
-  .toast { position:fixed; right:24px; bottom:24px; background:#111827; color:white; padding:12px 14px; border-radius:11px; box-shadow:var(--shadow); opacity:0; transform:translateY(10px); pointer-events:none; transition:.2s ease; z-index:80; }
-  .toast.show { opacity:1; transform:none; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
 
-  @media (max-width: 1000px) {
-    .top-grid { grid-template-columns:1fr; }
-    .search-row { grid-template-columns:1fr 1fr; }
-    .hero { align-items:flex-start; flex-direction:column; }
-  }
-  @media (max-width: 650px) {
-    .shell { padding:14px; }
-    .search-row { grid-template-columns:1fr; }
-    .modal-grid { grid-template-columns:1fr; }
-    .actions { grid-template-columns:1fr; }
-  }
-</style>
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      transform: rotate(45deg);
+    }
+    .brand-mark span {
+      display: block;
+      border-radius: 4px;
+      background: var(--collibra-green);
+    }
+    .brand-mark span:nth-child(2),
+    .brand-mark span:nth-child(4),
+    .brand-mark span:nth-child(6),
+    .brand-mark span:nth-child(8) { opacity: .78; }
+    .brand-mark span:nth-child(5) { opacity: .95; }
+
+    .tagline {
+      font-size: 15px;
+      opacity: .92;
+      white-space: nowrap;
+    }
+
+    .hero-copy { margin-top: 28px; }
+    .hero-copy h1 {
+      margin: 0 0 8px;
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+    .hero-copy p {
+      margin: 0;
+      font-size: 18px;
+      color: rgba(255,255,255,.88);
+    }
+
+    .page {
+      width: min(1500px, calc(100% - 48px));
+      margin: 0 auto 60px;
+      transform: translateY(-18px);
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .workflow-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 22px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .workflow-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(9, 47, 53, .13);
+      border-color: #c6d9d5;
+    }
+    .workflow-main { display: flex; align-items: center; gap: 16px; }
+    .workflow-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--collibra-mint);
+      color: var(--collibra-deep);
+      font-size: 24px;
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+    .workflow-card h2 { margin: 0 0 4px; font-size: 18px; }
+    .workflow-card p { margin: 0; color: var(--muted); }
+    .workflow-arrow {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--collibra-mint);
+      color: var(--collibra-deep);
+      font-size: 25px;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-title { display: flex; align-items: flex-start; gap: 14px; }
+    .panel-title .stack-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--collibra-deep);
+      background: var(--collibra-mint);
+      font-size: 19px;
+      font-weight: 700;
+    }
+    .panel-title h2 { margin: 0 0 3px; font-size: 20px; }
+    .panel-title p { margin: 0; color: var(--muted); font-size: 14px; }
+    .result-count { color: var(--muted); font-size: 14px; white-space: nowrap; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(260px, 1.7fr) repeat(3, minmax(160px, .75fr)) auto;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+
+    .search-wrap { position: relative; }
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      stroke: var(--muted);
+    }
+    .control {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #ccd9dd;
+      border-radius: 9px;
+      background: white;
+      color: var(--ink);
+      outline: none;
+      padding: 0 13px;
+    }
+    .search-wrap .control { padding-left: 42px; }
+    .control:focus {
+      border-color: var(--collibra-teal);
+      box-shadow: 0 0 0 3px rgba(0, 107, 99, .10);
+    }
+    .clear-btn {
+      border: 0;
+      background: transparent;
+      color: var(--collibra-deep);
+      font-weight: 600;
+      padding: 0 10px;
+    }
+
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      min-width: 1120px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    thead th {
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: #314a55;
+      background: #f6f8f9;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      user-select: none;
+    }
+    thead th.sortable { cursor: pointer; }
+    tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid #e8eef0;
+      vertical-align: middle;
+      color: #334d59;
+      font-size: 13px;
+    }
+    tbody tr:hover { background: #fbfdfd; }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    th:nth-child(1), td:nth-child(1) { width: 15%; }
+    th:nth-child(2), td:nth-child(2) { width: 11%; }
+    th:nth-child(3), td:nth-child(3) { width: 13%; }
+    th:nth-child(4), td:nth-child(4) { width: 29%; }
+    th:nth-child(5), td:nth-child(5) { width: 11%; }
+    th:nth-child(6), td:nth-child(6) { width: 11%; }
+    th:nth-child(7), td:nth-child(7) { width: 10%; }
+
+    .asset-name {
+      font-weight: 700;
+      color: var(--collibra-teal);
+    }
+    .type-chip, .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .type-chip { background: #edf2f4; color: #314a55; }
+    .status-accepted { background: #dff5df; color: #1e6f2a; }
+    .status-draft { background: #fff0c8; color: #8a5800; }
+    .status-candidate { background: #dcecff; color: #135fbd; }
+    .status-review { background: #eee6ff; color: #6340a7; }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .icon-btn {
+      width: 33px;
+      height: 33px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: var(--ink);
+    }
+    .icon-btn:hover { background: #eef6f5; border-color: #d3e7e3; }
+    .icon-btn.delete { color: #c3272b; }
+    .icon-btn svg { width: 17px; height: 17px; stroke: currentColor; }
+    .icon-btn[disabled] { opacity: .3; cursor: default; }
+
+    .loading-area {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      background: #fbfcfd;
+    }
+    .loading-inner { display: flex; align-items: center; gap: 12px; }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid #dce7e5;
+      border-top-color: var(--collibra-teal);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty {
+      padding: 50px 24px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(6, 39, 44, .45);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: min(620px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 24px 70px rgba(3, 28, 34, .28);
+    }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .modal-head h3 { margin: 0; }
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 0;
+      background: #f0f4f5;
+      color: var(--ink);
+      font-size: 20px;
+    }
+    .modal-body {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      padding: 20px 22px;
+    }
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 13px; font-weight: 700; }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      border: 1px solid #cad8dc;
+      border-radius: 9px;
+      padding: 10px 11px;
+      outline: none;
+    }
+    .field textarea { min-height: 110px; resize: vertical; }
+    .modal-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 22px 22px;
+    }
+    .btn {
+      min-height: 42px;
+      border-radius: 9px;
+      padding: 0 16px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+    .btn.secondary { background: white; border-color: #cbd8dc; color: var(--ink); }
+    .btn.primary { background: var(--collibra-deep); color: white; }
+    .btn.primary:hover { background: #003f3b; }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 200;
+      min-width: 280px;
+      max-width: 460px;
+      background: #103d42;
+      color: white;
+      padding: 14px 16px;
+      border-radius: 11px;
+      box-shadow: 0 12px 35px rgba(2, 31, 35, .28);
+      transform: translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    mark {
+      background: #dff6a8;
+      color: inherit;
+      padding: 0;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 980px) {
+      .hero { padding-left: 24px; padding-right: 24px; }
+      .page { width: min(100% - 24px, 1500px); }
+      .filters { grid-template-columns: 1fr 1fr; }
+      .search-wrap { grid-column: 1 / -1; }
+      .clear-btn { justify-self: start; min-height: 38px; }
+      .workflow-grid { grid-template-columns: 1fr; }
+      .tagline { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .hero { min-height: 200px; }
+      .brand { font-size: 24px; }
+      .hero-copy h1 { font-size: 34px; }
+      .hero-copy p { font-size: 16px; }
+      .filters { grid-template-columns: 1fr; }
+      .panel-head { align-items: flex-start; flex-direction: column; }
+      .modal-body { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+  </style>
 </head>
 <body>
-<div class="shell">
-  <section class="hero">
-    <div>
-      <h1>Business Glossary</h1>
-      <p>Explore sample business language, ownership and governance context in one place. This demo runs entirely in the browser and does not connect to Collibra.</p>
-    </div>
-    <div class="badge">Demo environment</div>
-  </section>
-
-  <section class="top-grid">
-    <div class="card mini">
-      <h3>Available actions</h3>
-      <div class="sub">Preview common governance workflows</div>
-      <div class="actions">
-        <button class="action-btn" data-action="Business Term">Create Business Term</button>
-        <button class="action-btn" data-action="Acronym">Create Acronym</button>
-        <button class="action-btn" data-action="Glossary">Create Glossary</button>
-        <button class="action-btn" data-action="Approval request">Request Approval</button>
+  <header class="hero">
+    <div class="brand-row">
+      <div class="brand" aria-label="Collibra demo">
+        <div class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <span>Collibra</span>
       </div>
+      <div class="tagline">Data. People. Possibilities.</div>
     </div>
-    <div class="card mini">
-      <h3>Recently viewed</h3>
-      <div class="sub">Your latest glossary activity</div>
-      <div id="recentList" class="mini-list"></div>
+    <div class="hero-copy">
+      <h1 id="greeting">Good morning, Data Explorer!</h1>
+      <p>Welcome to the Business Glossary. Find, understand and contribute to our shared language.</p>
     </div>
-    <div class="card mini">
-      <h3>Popular items</h3>
-      <div class="sub">Frequently referenced assets</div>
-      <div id="popularList" class="mini-list"></div>
-    </div>
-  </section>
+  </header>
 
-  <section class="card section">
-    <div class="section-title">
-      <div>
-        <h2>Search the glossary</h2>
-        <p>Search names and descriptions, then refine by type, glossary, status and owner.</p>
+  <main class="page">
+    <section class="workflow-grid" aria-label="Create assets">
+      <article class="workflow-card">
+        <div class="workflow-main">
+          <div class="workflow-icon" aria-hidden="true">▤</div>
+          <div>
+            <h2>Create new Business Term</h2>
+            <p>Add a new term to the Business Glossary</p>
+          </div>
+        </div>
+        <button class="workflow-arrow" type="button" data-create="Business Term" aria-label="Create Business Term">›</button>
+      </article>
+
+      <article class="workflow-card">
+        <div class="workflow-main">
+          <div class="workflow-icon" aria-hidden="true">Aa</div>
+          <div>
+            <h2>Create new Acronym</h2>
+            <p>Register a new acronym</p>
+          </div>
+        </div>
+        <button class="workflow-arrow" type="button" data-create="Acronym" aria-label="Create Acronym">›</button>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">
+          <div class="stack-icon" aria-hidden="true">≋</div>
+          <div>
+            <h2>Glossary assets</h2>
+            <p>Search and explore business terms and acronyms across all glossaries.</p>
+          </div>
+        </div>
+        <div class="result-count" id="resultCount">0 results</div>
       </div>
-      <button id="resetBtn" class="ghost-btn">Reset filters</button>
-    </div>
 
-    <div class="search-row">
-      <input id="searchInput" type="search" placeholder="Search terms, acronyms or descriptions…" />
-      <select id="typeFilter"><option value="">All asset types</option></select>
-      <select id="glossaryFilter"><option value="">All glossaries</option></select>
-      <select id="statusFilter"><option value="">All statuses</option></select>
-      <select id="ownerFilter"><option value="">All owners</option></select>
-    </div>
+      <div class="filters">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+          <input class="control" id="searchInput" type="search" placeholder="Search for a term, acronym or description..." />
+        </div>
+        <select class="control" id="typeFilter">
+          <option value="">All asset types</option>
+          <option value="Business Term">Business Term</option>
+          <option value="Acronym">Acronym</option>
+        </select>
+        <select class="control" id="glossaryFilter">
+          <option value="">All glossaries</option>
+        </select>
+        <select class="control" id="statusFilter">
+          <option value="">All statuses</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Draft">Draft</option>
+          <option value="Candidate">Candidate</option>
+          <option value="Under Review">Under Review</option>
+        </select>
+        <button class="clear-btn" id="clearFilters" type="button">Clear filters</button>
+      </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th data-sort="name">Name</th>
-            <th data-sort="type">Type</th>
-            <th data-sort="description">Description</th>
-            <th data-sort="glossary">Glossary</th>
-            <th data-sort="owner">Owner</th>
-            <th data-sort="status">Status</th>
-            <th data-sort="updated">Updated</th>
-          </tr>
-        </thead>
-        <tbody id="assetRows"></tbody>
-      </table>
-    </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-sort="name">Name ↕</th>
+              <th class="sortable" data-sort="type">Type ↕</th>
+              <th class="sortable" data-sort="glossary">Glossary ↕</th>
+              <th>Description</th>
+              <th class="sortable" data-sort="status">Status ↕</th>
+              <th class="sortable" data-sort="owner">Owner ↕</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="assetRows"></tbody>
+        </table>
+      </div>
 
-    <div class="footer-row">
-      <div id="resultCount">0 results</div>
-      <div id="pagination" class="pagination"></div>
-    </div>
-  </section>
-</div>
+      <div class="empty" id="emptyState" hidden>No assets match the current filters.</div>
 
-<div id="modalBackdrop" class="modal-backdrop">
-  <div class="modal">
-    <h3 id="modalTitle">Demo action</h3>
-    <p id="modalText">This is a simulated workflow action for demonstration purposes.</p>
-    <div class="modal-grid">
-      <input placeholder="Name" />
-      <select><option>Draft</option><option>Candidate</option><option>Approved</option></select>
-      <input placeholder="Owner" />
-      <input placeholder="Glossary" />
-    </div>
-    <div class="modal-actions">
-      <button id="closeModal" class="ghost-btn">Cancel</button>
-      <button id="confirmModal" class="primary-btn">Create sample</button>
+      <div class="loading-area" id="loadingArea">
+        <div class="loading-inner" id="loadingInner">
+          <div class="spinner" aria-hidden="true"></div>
+          <div>
+            <strong>Loading more assets...</strong><br />
+            <span>Scroll to continue</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="assetModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Create asset</h3>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button>
+      </div>
+      <form id="assetForm">
+        <div class="modal-body">
+          <input type="hidden" id="editId" />
+          <div class="field">
+            <label for="formType">Asset type</label>
+            <select id="formType" required>
+              <option>Business Term</option>
+              <option>Acronym</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="formStatus">Status</label>
+            <select id="formStatus" required>
+              <option>Draft</option>
+              <option>Candidate</option>
+              <option>Under Review</option>
+              <option>Accepted</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="formName">Name</label>
+            <input id="formName" required maxlength="80" />
+          </div>
+          <div class="field">
+            <label for="formGlossary">Glossary</label>
+            <select id="formGlossary" required></select>
+          </div>
+          <div class="field">
+            <label for="formOwner">Owner</label>
+            <input id="formOwner" required maxlength="80" />
+          </div>
+          <div class="field full">
+            <label for="formDescription">Description</label>
+            <textarea id="formDescription" required maxlength="500"></textarea>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="btn secondary" id="modalCancel" type="button">Cancel</button>
+          <button class="btn primary" type="submit">Save asset</button>
+        </div>
+      </form>
     </div>
   </div>
-</div>
-<div id="toast" class="toast"></div>
 
-<script>
-const assets = [
-  {name:'Customer',type:'Business Term',description:'A person or organisation that purchases or uses products and services.',glossary:'Customer & Party',owner:'Sophie van Dijk',status:'Approved',updated:'2026-09-18',pop:97},
-  {name:'Customer Lifetime Value',type:'Business Term',description:'Expected net value generated by a customer across the full commercial relationship.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-09-17',pop:94},
-  {name:'CLV',type:'Acronym',description:'Common acronym for Customer Lifetime Value.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-09-17',pop:90},
-  {name:'Active Customer',type:'Business Term',description:'A customer with at least one qualifying transaction or active service in the defined measurement period.',glossary:'Customer & Party',owner:'Sophie van Dijk',status:'Approved',updated:'2026-09-16',pop:88},
-  {name:'Customer Segment',type:'Business Term',description:'A defined grouping of customers based on shared characteristics, needs or behaviour.',glossary:'Customer & Party',owner:'Noah Jansen',status:'In Review',updated:'2026-09-15',pop:84},
-  {name:'Net Promoter Score',type:'Business Term',description:'A customer experience metric based on likelihood to recommend the organisation.',glossary:'Commercial Metrics',owner:'Emma Meijer',status:'Approved',updated:'2026-09-14',pop:82},
-  {name:'NPS',type:'Acronym',description:'Acronym for Net Promoter Score.',glossary:'Commercial Metrics',owner:'Emma Meijer',status:'Approved',updated:'2026-09-14',pop:79},
-  {name:'Revenue',type:'Business Term',description:'Income recognised from ordinary business activities before deduction of operating expenses.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-09-13',pop:95},
-  {name:'Gross Margin',type:'Business Term',description:'Revenue less cost of goods sold, expressed as an absolute amount or percentage.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-09-12',pop:86},
-  {name:'Operating Expense',type:'Business Term',description:'Costs incurred through normal day to day operations, excluding direct cost of goods sold.',glossary:'Finance',owner:'Eva Bakker',status:'Draft',updated:'2026-09-11',pop:61},
-  {name:'OPEX',type:'Acronym',description:'Acronym for Operating Expense.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-11',pop:72},
-  {name:'Capital Expenditure',type:'Business Term',description:'Funds used to acquire, improve or extend the useful life of long term assets.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-10',pop:73},
-  {name:'CAPEX',type:'Acronym',description:'Acronym for Capital Expenditure.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-10',pop:75},
-  {name:'Data Owner',type:'Business Term',description:'Accountable business role that makes decisions about the use, quality and protection of a data domain.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-09-09',pop:93},
-  {name:'Data Steward',type:'Business Term',description:'Role responsible for day to day coordination of data definitions, quality and issue resolution.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-09-09',pop:91},
-  {name:'Critical Data Element',type:'Business Term',description:'A data element considered essential for key business processes, reporting, risk or regulatory obligations.',glossary:'Data Governance',owner:'Yara de Wit',status:'Approved',updated:'2026-09-08',pop:89},
-  {name:'CDE',type:'Acronym',description:'Acronym for Critical Data Element.',glossary:'Data Governance',owner:'Yara de Wit',status:'Approved',updated:'2026-09-08',pop:80},
-  {name:'Data Quality Rule',type:'Business Term',description:'A measurable condition used to determine whether data meets an agreed expectation.',glossary:'Data Quality',owner:'Yara de Wit',status:'Approved',updated:'2026-09-07',pop:87},
-  {name:'Completeness',type:'Business Term',description:'Data Quality dimension measuring whether required data values are present.',glossary:'Data Quality',owner:'Yara de Wit',status:'Approved',updated:'2026-09-07',pop:76},
-  {name:'Accuracy',type:'Business Term',description:'Data Quality dimension measuring whether data correctly represents the real world object or event.',glossary:'Data Quality',owner:'Tom van Leeuwen',status:'Approved',updated:'2026-09-06',pop:78},
-  {name:'Timeliness',type:'Business Term',description:'Data Quality dimension measuring whether data is available within the required timeframe.',glossary:'Data Quality',owner:'Tom van Leeuwen',status:'In Review',updated:'2026-09-06',pop:68},
-  {name:'AI System',type:'Business Term',description:'A machine based system designed to generate outputs such as predictions, recommendations or decisions.',glossary:'AI Governance',owner:'Julia Hendriks',status:'Approved',updated:'2026-09-05',pop:85},
-  {name:'Model Owner',type:'Business Term',description:'Role accountable for the lifecycle, intended use, controls and performance of an analytical or AI model.',glossary:'AI Governance',owner:'Julia Hendriks',status:'Approved',updated:'2026-09-05',pop:83},
-  {name:'High Risk AI',type:'Business Term',description:'AI use classified as high risk under the applicable governance or regulatory framework.',glossary:'AI Governance',owner:'Daan Mulder',status:'In Review',updated:'2026-09-04',pop:81},
-  {name:'Personally Identifiable Information',type:'Business Term',description:'Information that identifies or can reasonably be linked to a specific individual.',glossary:'Privacy & Compliance',owner:'Daan Mulder',status:'Approved',updated:'2026-09-03',pop:92},
-  {name:'PII',type:'Acronym',description:'Acronym for Personally Identifiable Information.',glossary:'Privacy & Compliance',owner:'Daan Mulder',status:'Approved',updated:'2026-09-03',pop:88},
-  {name:'Retention Period',type:'Business Term',description:'The period for which information must or may be retained before disposal or archival.',glossary:'Privacy & Compliance',owner:'Sara Vos',status:'Approved',updated:'2026-09-02',pop:70},
-  {name:'Legal Basis',type:'Business Term',description:'The lawful justification that permits processing of personal data.',glossary:'Privacy & Compliance',owner:'Sara Vos',status:'Approved',updated:'2026-09-02',pop:74},
-  {name:'Product',type:'Business Term',description:'A market offering that delivers defined value to a customer or user.',glossary:'Product',owner:'Noah Jansen',status:'Approved',updated:'2026-09-01',pop:90},
-  {name:'Product Family',type:'Business Term',description:'A grouping of related products that share common capabilities, positioning or lifecycle ownership.',glossary:'Product',owner:'Noah Jansen',status:'Draft',updated:'2026-08-31',pop:65},
-  {name:'Service Level Agreement',type:'Business Term',description:'An agreed commitment describing the expected service level and associated responsibilities.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-30',pop:84},
-  {name:'SLA',type:'Acronym',description:'Acronym for Service Level Agreement.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-30',pop:85},
-  {name:'Incident',type:'Business Term',description:'An unplanned event that disrupts or reduces the quality of an operational service.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-29',pop:77},
-  {name:'Key Performance Indicator',type:'Business Term',description:'A measurable value used to assess progress toward a defined business objective.',glossary:'Enterprise Performance',owner:'Emma Meijer',status:'Approved',updated:'2026-08-28',pop:96},
-  {name:'KPI',type:'Acronym',description:'Acronym for Key Performance Indicator.',glossary:'Enterprise Performance',owner:'Emma Meijer',status:'Approved',updated:'2026-08-28',pop:93},
-  {name:'Risk Appetite',type:'Business Term',description:'The amount and type of risk an organisation is willing to accept in pursuit of objectives.',glossary:'Risk',owner:'Mats Vermeer',status:'Approved',updated:'2026-08-27',pop:71},
-  {name:'Control',type:'Business Term',description:'A measure designed to prevent, detect or reduce the likelihood or impact of an identified risk.',glossary:'Risk',owner:'Mats Vermeer',status:'In Review',updated:'2026-08-27',pop:69},
-  {name:'Business Glossary',type:'Glossary',description:'Curated collection of agreed business definitions and governance context.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-08-26',pop:89},
-  {name:'Commercial Metrics Glossary',type:'Glossary',description:'Glossary containing standard commercial KPIs and customer value measures.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-08-25',pop:75},
-  {name:'Finance Glossary',type:'Glossary',description:'Glossary containing finance, accounting and management reporting terminology.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-08-25',pop:78},
-  {name:'AI Governance Glossary',type:'Glossary',description:'Glossary containing AI roles, risk classifications and governance concepts.',glossary:'AI Governance',owner:'Julia Hendriks',status:'In Review',updated:'2026-08-24',pop:73}
-];
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-const state = { page:1, perPage:10, sortKey:'name', sortDir:'asc' };
-const $ = id => document.getElementById(id);
-const searchInput = $('searchInput');
-const filters = { type:$('typeFilter'), glossary:$('glossaryFilter'), status:$('statusFilter'), owner:$('ownerFilter') };
+  <script>
+    const glossaries = [
+      'Customer & Sales', 'Finance', 'Data Management', 'Risk & Compliance',
+      'Technology', 'People & Organisation', 'Products & Services', 'Operations',
+      'AI Governance', 'Sustainability'
+    ];
 
-function unique(key){ return [...new Set(assets.map(a=>a[key]))].sort((a,b)=>a.localeCompare(b)); }
-function fillSelect(el, values){ values.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; el.appendChild(o); }); }
-fillSelect(filters.type, unique('type'));
-fillSelect(filters.glossary, unique('glossary'));
-fillSelect(filters.status, unique('status'));
-fillSelect(filters.owner, unique('owner'));
+    const owners = [
+      'Alex Johnson', 'Priya Sharma', 'Daniel Kim', 'Sophie Martin', 'Liam O’Connor',
+      'Emma de Vries', 'Noah Wilson', 'Olivia Brown', 'Lucas Müller', 'Isabella Rossi',
+      'Maya Chen', 'Thomas Becker'
+    ];
 
-function esc(s=''){ return s.replace(/[&<>\"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;' }[c])); }
-function hi(text, q){ if(!q) return esc(text); const safe=esc(text); const r=new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','ig'); return safe.replace(r,'<mark>$1</mark>'); }
-function badgeClass(type){ return type==='Acronym'?'acronym':type==='Glossary'?'glossary':'term'; }
-function statusClass(s){ return s==='Approved'?'approved':s==='Draft'?'draft':'review'; }
+    const seedAssets = [
+      ['Customer','Business Term','Customer & Sales','A person or organisation that purchases products or services.','Accepted'],
+      ['NPS','Acronym','Customer & Sales','Net Promoter Score. A metric used to understand customer loyalty and advocacy.','Draft'],
+      ['Revenue','Business Term','Finance','Total income generated from the sale of goods or services before expenses.','Candidate'],
+      ['KPI','Acronym','People & Organisation','Key Performance Indicator. A measurable value used to evaluate progress towards an objective.','Accepted'],
+      ['Sustainability','Business Term','Sustainability','Meeting present needs while considering long term environmental, social and economic impact.','Draft'],
+      ['ESG','Acronym','Sustainability','Environmental, Social and Governance. A framework for assessing non financial performance.','Accepted'],
+      ['Data Quality','Business Term','Data Management','The degree to which data is accurate, complete, consistent, timely and fit for purpose.','Candidate'],
+      ['Risk','Business Term','Risk & Compliance','The effect of uncertainty on objectives, including potential threats and opportunities.','Accepted'],
+      ['Policy','Business Term','Risk & Compliance','A formally approved principle or rule that guides decisions and behaviour.','Draft'],
+      ['API','Acronym','Technology','Application Programming Interface. A defined way for software components to communicate.','Candidate'],
+      ['Data Owner','Business Term','Data Management','The accountable business role for decisions about a defined data domain or asset.','Accepted'],
+      ['Data Steward','Business Term','Data Management','A role responsible for applying data standards and supporting data quality within a domain.','Under Review'],
+      ['Critical Data Element','Business Term','Data Management','A data element whose quality materially affects important business processes, reporting or compliance.','Candidate'],
+      ['CDE','Acronym','Data Management','Critical Data Element. A business significant data element that requires enhanced governance.','Accepted'],
+      ['Master Data','Business Term','Data Management','Core shared data that describes key business entities such as customers, products and suppliers.','Accepted'],
+      ['Reference Data','Business Term','Data Management','Controlled values used to classify, categorise or constrain other data.','Draft'],
+      ['Data Lineage','Business Term','Data Management','A traceable representation of how data moves and transforms across systems and processes.','Accepted'],
+      ['Retention Period','Business Term','Risk & Compliance','The approved length of time information must be retained before archival or deletion.','Under Review'],
+      ['Legal Entity','Business Term','Finance','An organisation recognised by law as having rights, obligations and liabilities.','Accepted'],
+      ['Cost Centre','Business Term','Finance','An organisational unit used to collect and manage costs for accounting purposes.','Candidate'],
+      ['Gross Margin','Business Term','Finance','Revenue minus cost of goods sold, expressed as an amount or percentage.','Draft'],
+      ['EBITDA','Acronym','Finance','Earnings Before Interest, Taxes, Depreciation and Amortisation.','Accepted'],
+      ['Vendor','Business Term','Operations','An external party that provides goods or services to the organisation.','Accepted'],
+      ['SLA','Acronym','Operations','Service Level Agreement. A commitment that defines expected service performance.','Accepted'],
+      ['Incident','Business Term','Operations','An unplanned interruption or degradation of a service or business process.','Candidate'],
+      ['AI System','Business Term','AI Governance','A machine based system that generates outputs such as predictions, content, recommendations or decisions.','Under Review'],
+      ['Model Owner','Business Term','AI Governance','The accountable role for the lifecycle, use and control of an analytical or AI model.','Draft'],
+      ['Human Oversight','Business Term','AI Governance','Measures that enable people to understand, supervise and intervene in AI supported outcomes.','Accepted'],
+      ['PII','Acronym','Risk & Compliance','Personally Identifiable Information. Information that can identify or relate to an individual.','Accepted'],
+      ['RTO','Acronym','Risk & Compliance','Recovery Time Objective. The target time to restore a service after disruption.','Candidate'],
+      ['RPO','Acronym','Risk & Compliance','Recovery Point Objective. The maximum acceptable amount of data loss measured in time.','Candidate'],
+      ['Product','Business Term','Products & Services','A good, service or capability offered to customers or internal consumers.','Accepted'],
+      ['Product Owner','Business Term','Products & Services','The person accountable for maximising product value and prioritising product outcomes.','Draft'],
+      ['Churn Rate','Business Term','Customer & Sales','The percentage of customers who stop using a product or service during a defined period.','Under Review'],
+      ['Conversion Rate','Business Term','Customer & Sales','The proportion of users who complete a desired action out of the total eligible population.','Accepted'],
+      ['Lead','Business Term','Customer & Sales','A person or organisation that may become a customer and has entered the sales process.','Candidate'],
+      ['CRM','Acronym','Customer & Sales','Customer Relationship Management. Processes and technology used to manage customer interactions.','Accepted'],
+      ['FTE','Acronym','People & Organisation','Full Time Equivalent. A standardised measure of workforce capacity.','Accepted'],
+      ['Employee','Business Term','People & Organisation','A person employed by the organisation under a recognised employment arrangement.','Accepted'],
+      ['Business Capability','Business Term','People & Organisation','An ability an organisation needs in order to achieve a business outcome.','Draft']
+    ];
 
-function filtered(){
-  const q=searchInput.value.trim().toLowerCase();
-  return assets.filter(a => {
-    const matchesQ = !q || a.name.toLowerCase().includes(q) || a.description.toLowerCase().includes(q) || a.glossary.toLowerCase().includes(q);
-    return matchesQ && (!filters.type.value || a.type===filters.type.value) && (!filters.glossary.value || a.glossary===filters.glossary.value) && (!filters.status.value || a.status===filters.status.value) && (!filters.owner.value || a.owner===filters.owner.value);
-  }).sort((a,b)=>{
-    const va=a[state.sortKey], vb=b[state.sortKey];
-    const cmp = String(va).localeCompare(String(vb), undefined, {numeric:true, sensitivity:'base'});
-    return state.sortDir==='asc'?cmp:-cmp;
-  });
-}
+    const extraNames = [
+      ['Data Product','Business Term','Data Management'], ['Business Rule','Business Term','Data Management'],
+      ['Data Contract','Business Term','Data Management'], ['Data Domain','Business Term','Data Management'],
+      ['Data Classification','Business Term','Risk & Compliance'], ['Control','Business Term','Risk & Compliance'],
+      ['Control Owner','Business Term','Risk & Compliance'], ['Audit Trail','Business Term','Risk & Compliance'],
+      ['Model Risk','Business Term','AI Governance'], ['Training Data','Business Term','AI Governance'],
+      ['Inference','Business Term','AI Governance'], ['GenAI','Acronym','AI Governance'],
+      ['LLM','Acronym','AI Governance'], ['MLOps','Acronym','Technology'],
+      ['Data Pipeline','Business Term','Technology'], ['ETL','Acronym','Technology'],
+      ['Data Lake','Business Term','Technology'], ['Data Warehouse','Business Term','Technology'],
+      ['IAM','Acronym','Technology'], ['SSO','Acronym','Technology'],
+      ['Purchase Order','Business Term','Operations'], ['PO','Acronym','Operations'],
+      ['Invoice','Business Term','Finance'], ['CapEx','Acronym','Finance'],
+      ['OpEx','Acronym','Finance'], ['Forecast','Business Term','Finance'],
+      ['Supplier','Business Term','Operations'], ['Order','Business Term','Customer & Sales'],
+      ['Account','Business Term','Customer & Sales'], ['Customer Segment','Business Term','Customer & Sales'],
+      ['Service','Business Term','Products & Services'], ['Service Owner','Business Term','Products & Services'],
+      ['Carbon Footprint','Business Term','Sustainability'], ['CO2e','Acronym','Sustainability'],
+      ['Scope 1 Emissions','Business Term','Sustainability'], ['Scope 2 Emissions','Business Term','Sustainability'],
+      ['Scope 3 Emissions','Business Term','Sustainability'], ['Materiality','Business Term','Sustainability'],
+      ['Headcount','Business Term','People & Organisation'], ['Attrition Rate','Business Term','People & Organisation']
+    ];
 
-function render(){
-  const list=filtered();
-  const pages=Math.max(1,Math.ceil(list.length/state.perPage));
-  if(state.page>pages) state.page=pages;
-  const start=(state.page-1)*state.perPage;
-  const page=list.slice(start,start+state.perPage);
-  const q=searchInput.value.trim();
-  $('assetRows').innerHTML = page.map(a=>`<tr data-name="${esc(a.name)}">
-    <td><div class="asset-name">${hi(a.name,q)}</div><div class="muted" style="font-size:12px;margin-top:4px">ID DEMO ${Math.abs(hash(a.name))%9000+1000}</div></td>
-    <td><span class="pill ${badgeClass(a.type)}">${esc(a.type)}</span></td>
-    <td><div class="asset-desc">${hi(a.description,q)}</div></td>
-    <td>${hi(a.glossary,q)}</td>
-    <td><span class="owner">${esc(a.owner)}</span></td>
-    <td><span class="pill ${statusClass(a.status)}"><span class="status-dot status-${statusClass(a.status)}"></span>${esc(a.status)}</span></td>
-    <td>${esc(a.updated)}</td>
-  </tr>`).join('');
-  $('resultCount').textContent = `${list.length} result${list.length===1?'':'s'} · showing ${list.length?start+1:0}–${Math.min(start+state.perPage,list.length)}`;
-  $('pagination').innerHTML = Array.from({length:pages},(_,i)=>`<button class="page-btn ${i+1===state.page?'active':''}" data-page="${i+1}">${i+1}</button>`).join('');
-  document.querySelectorAll('.page-btn').forEach(b=>b.onclick=()=>{state.page=Number(b.dataset.page); render();});
-  document.querySelectorAll('#assetRows tr').forEach(r=>r.onclick=()=>showToast(`${r.dataset.name} opened in demo view`));
-}
-function hash(s){ let h=0; for(let i=0;i<s.length;i++) h=((h<<5)-h)+s.charCodeAt(i)|0; return h; }
+    let nextId = 1;
+    let assets = seedAssets.map((a, index) => ({
+      id: nextId++, name: a[0], type: a[1], glossary: a[2], description: a[3], status: a[4], owner: owners[index % owners.length]
+    }));
 
-[searchInput,...Object.values(filters)].forEach(el=>el.addEventListener('input',()=>{state.page=1; render();}));
-$('resetBtn').onclick=()=>{ searchInput.value=''; Object.values(filters).forEach(f=>f.value=''); state.page=1; state.sortKey='name'; state.sortDir='asc'; render(); };
-document.querySelectorAll('th[data-sort]').forEach(th=>th.onclick=()=>{ const k=th.dataset.sort; if(state.sortKey===k) state.sortDir=state.sortDir==='asc'?'desc':'asc'; else {state.sortKey=k; state.sortDir='asc';} render(); });
+    extraNames.forEach((a, index) => {
+      const descriptions = {
+        'Business Term': `${a[0]} is a controlled glossary concept used to create a consistent business understanding across people, process and technology.`,
+        'Acronym': `${a[0]} is a recognised acronym used across the organisation and defined in the Business Glossary.`
+      };
+      const statuses = ['Accepted','Draft','Candidate','Under Review'];
+      assets.push({
+        id: nextId++, name: a[0], type: a[1], glossary: a[2],
+        description: descriptions[a[1]], status: statuses[index % statuses.length], owner: owners[(index + 4) % owners.length]
+      });
+    });
 
-const recentNames=['AI System','Customer Lifetime Value','Data Owner'];
-$('recentList').innerHTML=recentNames.map(n=>mini(assets.find(a=>a.name===n))).join('');
-$('popularList').innerHTML=[...assets].sort((a,b)=>b.pop-a.pop).slice(0,3).map(mini).join('');
-function mini(a){return `<div class="mini-item"><div class="left"><div class="name">${esc(a.name)}</div><div class="meta">${esc(a.glossary)}</div></div><span class="pill ${badgeClass(a.type)}">${esc(a.type)}</span></div>`;}
+    const acronymCatalogue = [
+      ['AI','Artificial Intelligence','AI Governance'], ['ML','Machine Learning','AI Governance'],
+      ['NLP','Natural Language Processing','AI Governance'], ['RAG','Retrieval Augmented Generation','AI Governance'],
+      ['XAI','Explainable Artificial Intelligence','AI Governance'], ['AIA','AI Impact Assessment','AI Governance'],
+      ['DPIA','Data Protection Impact Assessment','Risk & Compliance'], ['GDPR','General Data Protection Regulation','Risk & Compliance'],
+      ['KRI','Key Risk Indicator','Risk & Compliance'], ['BCP','Business Continuity Plan','Risk & Compliance'],
+      ['BIA','Business Impact Analysis','Risk & Compliance'], ['GRC','Governance, Risk and Compliance','Risk & Compliance'],
+      ['SoD','Segregation of Duties','Risk & Compliance'], ['RBAC','Role Based Access Control','Risk & Compliance'],
+      ['MFA','Multi Factor Authentication','Technology'], ['VPN','Virtual Private Network','Technology'],
+      ['DNS','Domain Name System','Technology'], ['HTTP','Hypertext Transfer Protocol','Technology'],
+      ['HTTPS','Hypertext Transfer Protocol Secure','Technology'], ['JSON','JavaScript Object Notation','Technology'],
+      ['XML','Extensible Markup Language','Technology'], ['SQL','Structured Query Language','Technology'],
+      ['DBMS','Database Management System','Technology'], ['DWH','Data Warehouse','Technology'],
+      ['MDM','Master Data Management','Data Management'], ['DQM','Data Quality Management','Data Management'],
+      ['DQ','Data Quality','Data Management'], ['DQL','Data Quality Level','Data Management'],
+      ['RDM','Reference Data Management','Data Management'], ['CDC','Change Data Capture','Data Management'],
+      ['ELT','Extract Load Transform','Data Management'], ['BI','Business Intelligence','Data Management'],
+      ['MI','Management Information','Data Management'], ['DAMA','Data Management Association','Data Management'],
+      ['ROI','Return on Investment','Finance'], ['ROE','Return on Equity','Finance'],
+      ['ROA','Return on Assets','Finance'], ['P&L','Profit and Loss','Finance'],
+      ['NPV','Net Present Value','Finance'], ['IRR','Internal Rate of Return','Finance'],
+      ['AR','Accounts Receivable','Finance'], ['AP','Accounts Payable','Finance'],
+      ['GL','General Ledger','Finance'], ['VAT','Value Added Tax','Finance'],
+      ['FX','Foreign Exchange','Finance'], ['AUM','Assets Under Management','Finance'],
+      ['ARR','Annual Recurring Revenue','Customer & Sales'], ['MRR','Monthly Recurring Revenue','Customer & Sales'],
+      ['CAC','Customer Acquisition Cost','Customer & Sales'], ['CLV','Customer Lifetime Value','Customer & Sales'],
+      ['CTR','Click Through Rate','Customer & Sales'], ['CPC','Cost Per Click','Customer & Sales'],
+      ['CPM','Cost Per Mille','Customer & Sales'], ['B2B','Business to Business','Customer & Sales'],
+      ['B2C','Business to Consumer','Customer & Sales'], ['POS','Point of Sale','Customer & Sales'],
+      ['SKU','Stock Keeping Unit','Products & Services'], ['MVP','Minimum Viable Product','Products & Services'],
+      ['TCO','Total Cost of Ownership','Products & Services'], ['UX','User Experience','Products & Services'],
+      ['UI','User Interface','Products & Services'], ['CSAT','Customer Satisfaction Score','Products & Services'],
+      ['OKR','Objectives and Key Results','People & Organisation'], ['HR','Human Resources','People & Organisation'],
+      ['HRIS','Human Resources Information System','People & Organisation'], ['PTO','Paid Time Off','People & Organisation'],
+      ['L&D','Learning and Development','People & Organisation'], ['DEI','Diversity, Equity and Inclusion','People & Organisation'],
+      ['COGS','Cost of Goods Sold','Operations'], ['OEE','Overall Equipment Effectiveness','Operations'],
+      ['SOP','Standard Operating Procedure','Operations'], ['KYT','Know Your Transaction','Operations'],
+      ['BOM','Bill of Materials','Operations'], ['WIP','Work in Progress','Operations'],
+      ['CO2','Carbon Dioxide','Sustainability'], ['GHG','Greenhouse Gas','Sustainability'],
+      ['LCA','Life Cycle Assessment','Sustainability'], ['EPR','Extended Producer Responsibility','Sustainability'],
+      ['SDG','Sustainable Development Goal','Sustainability'], ['SBTi','Science Based Targets initiative','Sustainability']
+    ];
 
-const backdrop=$('modalBackdrop');
-document.querySelectorAll('[data-action]').forEach(btn=>btn.onclick=()=>{ $('modalTitle').textContent=btn.dataset.action; $('modalText').textContent=`This simulates the ${btn.dataset.action} workflow. No data is sent anywhere.`; backdrop.style.display='flex'; });
-$('closeModal').onclick=()=>backdrop.style.display='none';
-$('confirmModal').onclick=()=>{ backdrop.style.display='none'; showToast('Sample action completed'); };
-backdrop.onclick=e=>{ if(e.target===backdrop) backdrop.style.display='none'; };
-function showToast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(window.__toast); window.__toast=setTimeout(()=>t.classList.remove('show'),2200); }
+    const existingNames = new Set(assets.map(asset => asset.name.toLowerCase()));
+    const statusCycle = ['Accepted', 'Draft', 'Candidate', 'Under Review'];
 
-render();
-</script>
+    acronymCatalogue.forEach((a, index) => {
+      if (existingNames.has(a[0].toLowerCase())) return;
+      assets.push({
+        id: nextId++,
+        name: a[0],
+        type: 'Acronym',
+        glossary: a[2],
+        description: `${a[1]}. A recognised acronym used within the organisation and governed through the Business Glossary.`,
+        status: statusCycle[index % statusCycle.length],
+        owner: owners[(index + 7) % owners.length]
+      });
+      existingNames.add(a[0].toLowerCase());
+    });
+
+    const termFamilies = {
+      'Customer & Sales': ['Customer','Account','Prospect','Lead','Campaign','Sales','Channel','Market','Contract','Order'],
+      'Finance': ['Financial','Revenue','Cost','Budget','Invoice','Payment','Ledger','Tax','Capital','Profit'],
+      'Data Management': ['Data','Metadata','Dataset','Attribute','Domain','Quality','Lineage','Reference','Master Data','Information'],
+      'Risk & Compliance': ['Risk','Control','Policy','Compliance','Audit','Privacy','Security','Retention','Exception','Incident'],
+      'Technology': ['Application','System','Platform','Interface','Service','Integration','Cloud','Database','Network','Technology'],
+      'People & Organisation': ['Employee','Workforce','Role','Team','Department','Organisation','Capability','Skill','Position','Manager'],
+      'Products & Services': ['Product','Service','Offering','Feature','Subscription','Portfolio','Catalogue','Package','Solution','Experience'],
+      'Operations': ['Supplier','Procurement','Shipment','Warehouse','Process','Procedure','Operation','Inventory','Delivery','Maintenance'],
+      'AI Governance': ['AI Model','Algorithm','Training Data','Model Risk','Model Output','AI Use Case','Prompt','Inference','Bias','Human Oversight'],
+      'Sustainability': ['Emission','Energy','Waste','Water','Climate','Carbon','Material','Circularity','Biodiversity','Sustainability']
+    };
+
+    const termConcepts = [
+      'Identifier','Category','Segment','Status','Score','Threshold','Measure','Record','Definition','Classification',
+      'Owner','Lifecycle','Objective','Event','Indicator','Value','Type','Level','Group','Profile','Rule','Standard',
+      'Assessment','Review','Target','Requirement','Source','Channel','Date','Amount','Rate','Balance'
+    ];
+
+    let generatedIndex = 0;
+    outer: for (const [glossary, families] of Object.entries(termFamilies)) {
+      for (const family of families) {
+        for (const concept of termConcepts) {
+          if (assets.length >= 360) break outer;
+          const name = `${family} ${concept}`;
+          if (existingNames.has(name.toLowerCase())) continue;
+          assets.push({
+            id: nextId++,
+            name,
+            type: 'Business Term',
+            glossary,
+            description: `${name} is a governed business concept used to create a consistent understanding across data, process, policy and technology.`,
+            status: statusCycle[generatedIndex % statusCycle.length],
+            owner: owners[(generatedIndex + 2) % owners.length]
+          });
+          existingNames.add(name.toLowerCase());
+          generatedIndex += 1;
+        }
+      }
+    }
+
+    const state = {
+      pageSize: 15,
+      visibleCount: 15,
+      sortKey: 'name',
+      sortDirection: 1,
+      filtered: []
+    };
+
+    const els = {
+      greeting: document.getElementById('greeting'),
+      rows: document.getElementById('assetRows'),
+      resultCount: document.getElementById('resultCount'),
+      search: document.getElementById('searchInput'),
+      type: document.getElementById('typeFilter'),
+      glossary: document.getElementById('glossaryFilter'),
+      status: document.getElementById('statusFilter'),
+      clear: document.getElementById('clearFilters'),
+      loadingArea: document.getElementById('loadingArea'),
+      loadingInner: document.getElementById('loadingInner'),
+      empty: document.getElementById('emptyState'),
+      modal: document.getElementById('assetModal'),
+      modalTitle: document.getElementById('modalTitle'),
+      modalClose: document.getElementById('modalClose'),
+      modalCancel: document.getElementById('modalCancel'),
+      form: document.getElementById('assetForm'),
+      editId: document.getElementById('editId'),
+      formType: document.getElementById('formType'),
+      formStatus: document.getElementById('formStatus'),
+      formName: document.getElementById('formName'),
+      formGlossary: document.getElementById('formGlossary'),
+      formOwner: document.getElementById('formOwner'),
+      formDescription: document.getElementById('formDescription'),
+      toast: document.getElementById('toast')
+    };
+
+    function updateGreeting() {
+      const hour = new Date().getHours();
+      const part = hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
+      els.greeting.textContent = `Good ${part}, Data Explorer!`;
+    }
+
+    function fillGlossaryOptions() {
+      glossaries.forEach(g => {
+        const filterOpt = document.createElement('option');
+        filterOpt.value = g;
+        filterOpt.textContent = g;
+        els.glossary.appendChild(filterOpt);
+
+        const formOpt = document.createElement('option');
+        formOpt.value = g;
+        formOpt.textContent = g;
+        els.formGlossary.appendChild(formOpt);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, ch => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
+      }[ch]));
+    }
+
+    function highlight(value) {
+      const q = els.search.value.trim();
+      const safe = escapeHtml(value);
+      if (!q) return safe;
+      const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return safe.replace(new RegExp(`(${escaped})`, 'ig'), '<mark>$1</mark>');
+    }
+
+    function statusClass(status) {
+      return {
+        'Accepted': 'status-accepted',
+        'Draft': 'status-draft',
+        'Candidate': 'status-candidate',
+        'Under Review': 'status-review'
+      }[status] || '';
+    }
+
+    function filterAssets() {
+      const query = els.search.value.trim().toLowerCase();
+      state.filtered = assets.filter(asset => {
+        const matchesSearch = !query || [asset.name, asset.type, asset.glossary, asset.description, asset.status, asset.owner]
+          .some(v => String(v).toLowerCase().includes(query));
+        return matchesSearch &&
+          (!els.type.value || asset.type === els.type.value) &&
+          (!els.glossary.value || asset.glossary === els.glossary.value) &&
+          (!els.status.value || asset.status === els.status.value);
+      });
+
+      state.filtered.sort((a, b) => {
+        const av = String(a[state.sortKey] ?? '').toLowerCase();
+        const bv = String(b[state.sortKey] ?? '').toLowerCase();
+        return av.localeCompare(bv, undefined, { numeric: true, sensitivity: 'base' }) * state.sortDirection;
+      });
+    }
+
+    function actionButton(icon, label, cls, id, disabled = false) {
+      return `<button class="icon-btn ${cls || ''}" type="button" data-action="${label}" data-id="${id}" title="${label}" aria-label="${label}" ${disabled ? 'disabled' : ''}>${icon}</button>`;
+    }
+
+    const icons = {
+      send: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 2 11 13"></path><path d="m22 2-7 20-4-9-9-4Z"></path></svg>',
+      edit: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>',
+      trash: '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18"></path><path d="M8 6V4h8v2"></path><path d="M19 6l-1 14H6L5 6"></path><path d="M10 11v5M14 11v5"></path></svg>'
+    };
+
+    function render() {
+      filterAssets();
+      const visible = state.filtered.slice(0, state.visibleCount);
+      els.resultCount.textContent = `${state.filtered.length} result${state.filtered.length === 1 ? '' : 's'} • ${Math.min(visible.length, state.filtered.length)} loaded`;
+      els.empty.hidden = state.filtered.length !== 0;
+
+      els.rows.innerHTML = visible.map(asset => `
+        <tr>
+          <td><span class="asset-name">${highlight(asset.name)}</span></td>
+          <td><span class="type-chip">${highlight(asset.type)}</span></td>
+          <td>${highlight(asset.glossary)}</td>
+          <td>${highlight(asset.description)}</td>
+          <td><span class="status-chip ${statusClass(asset.status)}">${highlight(asset.status)}</span></td>
+          <td>${highlight(asset.owner)}</td>
+          <td>
+            <div class="actions">
+              ${asset.status !== 'Accepted' ? actionButton(icons.send, 'Send for approval', '', asset.id) : ''}
+              ${actionButton(icons.edit, 'Change asset', '', asset.id)}
+              ${actionButton(icons.trash, 'Delete asset', 'delete', asset.id)}
+            </div>
+          </td>
+        </tr>`).join('');
+
+      const more = state.visibleCount < state.filtered.length;
+      els.loadingArea.style.display = state.filtered.length ? 'flex' : 'none';
+      els.loadingInner.innerHTML = more
+        ? '<div class="spinner" aria-hidden="true"></div><div><strong>Loading more assets...</strong><br><span>Scroll to continue</span></div>'
+        : '<div><strong>All matching assets loaded</strong><br><span>Refine the filters to explore another view</span></div>';
+    }
+
+    function resetPagingAndRender() {
+      state.visibleCount = state.pageSize;
+      render();
+    }
+
+    let loading = false;
+    const observer = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting || loading) return;
+      if (state.visibleCount >= state.filtered.length) return;
+      loading = true;
+      setTimeout(() => {
+        state.visibleCount += state.pageSize;
+        render();
+        loading = false;
+      }, 350);
+    }, { rootMargin: '220px 0px' });
+    observer.observe(els.loadingArea);
+
+    function openCreate(type) {
+      els.form.reset();
+      els.editId.value = '';
+      els.formType.value = type;
+      els.formStatus.value = 'Draft';
+      els.formGlossary.value = type === 'Acronym' ? 'Technology' : 'Data Management';
+      els.formOwner.value = 'Alex Johnson';
+      els.modalTitle.textContent = `Create new ${type}`;
+      els.modal.classList.add('open');
+      setTimeout(() => els.formName.focus(), 0);
+    }
+
+    function openEdit(asset) {
+      els.editId.value = asset.id;
+      els.formType.value = asset.type;
+      els.formStatus.value = asset.status;
+      els.formName.value = asset.name;
+      els.formGlossary.value = asset.glossary;
+      els.formOwner.value = asset.owner;
+      els.formDescription.value = asset.description;
+      els.modalTitle.textContent = `Change ${asset.name}`;
+      els.modal.classList.add('open');
+      setTimeout(() => els.formName.focus(), 0);
+    }
+
+    function closeModal() {
+      els.modal.classList.remove('open');
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add('show');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => els.toast.classList.remove('show'), 2600);
+    }
+
+    document.querySelectorAll('[data-create]').forEach(btn => {
+      btn.addEventListener('click', () => openCreate(btn.dataset.create));
+    });
+
+    [els.search, els.type, els.glossary, els.status].forEach(control => {
+      control.addEventListener(control === els.search ? 'input' : 'change', resetPagingAndRender);
+    });
+
+    els.clear.addEventListener('click', () => {
+      els.search.value = '';
+      els.type.value = '';
+      els.glossary.value = '';
+      els.status.value = '';
+      resetPagingAndRender();
+    });
+
+    document.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (state.sortKey === key) state.sortDirection *= -1;
+        else {
+          state.sortKey = key;
+          state.sortDirection = 1;
+        }
+        resetPagingAndRender();
+      });
+    });
+
+    els.rows.addEventListener('click', event => {
+      const btn = event.target.closest('button[data-action]');
+      if (!btn) return;
+      const id = Number(btn.dataset.id);
+      const asset = assets.find(a => a.id === id);
+      if (!asset) return;
+
+      if (btn.dataset.action === 'Send for approval') {
+        if (asset.status === 'Accepted') {
+          showToast(`${asset.name} is already Accepted and cannot be sent for approval.`);
+          return;
+        }
+        asset.status = 'Under Review';
+        render();
+        showToast(`${asset.name} was sent for approval.`);
+      }
+
+      if (btn.dataset.action === 'Change asset') openEdit(asset);
+
+      if (btn.dataset.action === 'Delete asset') {
+        const confirmed = window.confirm(`Delete “${asset.name}”? This is a demo action.`);
+        if (confirmed) {
+          assets = assets.filter(a => a.id !== id);
+          resetPagingAndRender();
+          showToast(`${asset.name} was deleted.`);
+        }
+      }
+    });
+
+    els.form.addEventListener('submit', event => {
+      event.preventDefault();
+      const payload = {
+        type: els.formType.value,
+        status: els.formStatus.value,
+        name: els.formName.value.trim(),
+        glossary: els.formGlossary.value,
+        owner: els.formOwner.value.trim(),
+        description: els.formDescription.value.trim()
+      };
+      const editId = Number(els.editId.value || 0);
+      if (editId) {
+        const asset = assets.find(a => a.id === editId);
+        Object.assign(asset, payload);
+        showToast(`${asset.name} was updated.`);
+      } else {
+        assets.unshift({ id: nextId++, ...payload });
+        showToast(`${payload.name} was created.`);
+      }
+      closeModal();
+      resetPagingAndRender();
+      window.scrollTo({ top: document.querySelector('.panel').offsetTop - 30, behavior: 'smooth' });
+    });
+
+    els.modalClose.addEventListener('click', closeModal);
+    els.modalCancel.addEventListener('click', closeModal);
+    els.modal.addEventListener('click', event => {
+      if (event.target === els.modal) closeModal();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeModal();
+    });
+
+    updateGreeting();
+    fillGlossaryOptions();
+    render();
+  </script>
 </body>
 </html>
