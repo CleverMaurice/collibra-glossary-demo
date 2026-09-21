@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business Glossary Demo</title>
+<style>
+  :root {
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #3157d5;
+    --accent-soft: #eef2ff;
+    --good: #117a52;
+    --warn: #a65f00;
+    --danger: #b42318;
+    --shadow: 0 8px 24px rgba(31, 41, 55, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  body { min-height:100vh; }
+  .shell { max-width: 1480px; margin:0 auto; padding:28px; }
+  .hero {
+    display:flex; align-items:center; justify-content:space-between; gap:24px;
+    background:linear-gradient(120deg,#1f3fa8,#3a63df 58%,#6b8cff);
+    color:white; border-radius:22px; padding:28px 32px; box-shadow:var(--shadow); margin-bottom:22px;
+  }
+  .hero h1 { margin:0 0 6px; font-size:30px; letter-spacing:-0.02em; }
+  .hero p { margin:0; opacity:.9; max-width:800px; }
+  .hero .badge { padding:9px 13px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.12); font-weight:700; white-space:nowrap; }
+
+  .top-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px; margin-bottom:22px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); }
+  .mini { padding:20px; }
+  .mini h3 { margin:0 0 14px; font-size:17px; }
+  .mini .sub { font-size:13px; color:var(--muted); margin-top:-8px; margin-bottom:14px; }
+  .mini-list { display:grid; gap:10px; }
+  .mini-item { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 12px; border:1px solid var(--line); border-radius:12px; background:#fbfcff; }
+  .mini-item .left { min-width:0; }
+  .mini-item .name { font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mini-item .meta { font-size:12px; color:var(--muted); margin-top:3px; }
+  .pill { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:5px 8px; font-size:11px; font-weight:800; border:1px solid var(--line); white-space:nowrap; }
+  .pill.term { background:#eff6ff; color:#1d4ed8; }
+  .pill.acronym { background:#f5f3ff; color:#6d28d9; }
+  .pill.glossary { background:#ecfdf3; color:#087443; }
+  .pill.approved { background:#ecfdf3; color:#087443; }
+  .pill.draft { background:#fff7ed; color:#9a3412; }
+  .pill.review { background:#fffbea; color:#8a5b00; }
+
+  .actions { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px; }
+  button { font:inherit; }
+  .action-btn, .primary-btn, .ghost-btn {
+    border:none; border-radius:11px; cursor:pointer; font-weight:800; transition:.15s ease;
+  }
+  .action-btn { padding:11px 12px; background:var(--accent-soft); color:var(--accent); }
+  .action-btn:hover, .primary-btn:hover, .ghost-btn:hover { transform:translateY(-1px); }
+  .primary-btn { padding:11px 16px; background:var(--accent); color:white; }
+  .ghost-btn { padding:10px 14px; background:#fff; color:#374151; border:1px solid var(--line); }
+
+  .section { padding:22px; }
+  .section-title { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:16px; }
+  .section-title h2 { margin:0; font-size:21px; }
+  .section-title p { margin:4px 0 0; color:var(--muted); font-size:13px; }
+
+  .search-row { display:grid; grid-template-columns: minmax(280px,1.8fr) repeat(4, minmax(140px,.7fr)); gap:10px; margin-bottom:14px; }
+  .field { position:relative; }
+  input, select { width:100%; border:1px solid var(--line); border-radius:11px; padding:11px 12px; background:white; color:var(--text); outline:none; }
+  input:focus, select:focus { border-color:#9cb0ff; box-shadow:0 0 0 3px rgba(49,87,213,.10); }
+
+  .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:14px; }
+  table { width:100%; border-collapse:collapse; min-width:1050px; }
+  thead th { position:sticky; top:0; z-index:1; background:#f8fafc; color:#4b5563; font-size:12px; text-transform:uppercase; letter-spacing:.04em; text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); cursor:pointer; }
+  tbody td { padding:14px; border-bottom:1px solid #edf0f4; vertical-align:top; }
+  tbody tr:hover { background:#fbfdff; }
+  tbody tr:last-child td { border-bottom:none; }
+  .asset-name { font-weight:800; }
+  .asset-desc { color:#4b5563; line-height:1.42; max-width:480px; }
+  mark { background:#fff0a8; padding:0 2px; border-radius:3px; }
+  .owner { font-weight:700; }
+  .muted { color:var(--muted); }
+  .status-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+  .status-approved { background:#22a06b; }
+  .status-review { background:#e5a700; }
+  .status-draft { background:#f97316; }
+  .footer-row { display:flex; justify-content:space-between; align-items:center; gap:16px; padding-top:14px; color:var(--muted); font-size:13px; }
+  .pagination { display:flex; gap:8px; align-items:center; }
+  .page-btn { border:1px solid var(--line); background:white; padding:7px 10px; border-radius:9px; cursor:pointer; }
+  .page-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+
+  .modal-backdrop { position:fixed; inset:0; background:rgba(15,23,42,.42); display:none; align-items:center; justify-content:center; padding:24px; z-index:50; }
+  .modal { width:min(620px,96vw); background:white; border-radius:18px; padding:22px; box-shadow:0 30px 90px rgba(15,23,42,.28); }
+  .modal h3 { margin:0 0 8px; }
+  .modal p { color:var(--muted); line-height:1.5; }
+  .modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+  .modal-actions { display:flex; justify-content:flex-end; gap:10px; }
+  .toast { position:fixed; right:24px; bottom:24px; background:#111827; color:white; padding:12px 14px; border-radius:11px; box-shadow:var(--shadow); opacity:0; transform:translateY(10px); pointer-events:none; transition:.2s ease; z-index:80; }
+  .toast.show { opacity:1; transform:none; }
+
+  @media (max-width: 1000px) {
+    .top-grid { grid-template-columns:1fr; }
+    .search-row { grid-template-columns:1fr 1fr; }
+    .hero { align-items:flex-start; flex-direction:column; }
+  }
+  @media (max-width: 650px) {
+    .shell { padding:14px; }
+    .search-row { grid-template-columns:1fr; }
+    .modal-grid { grid-template-columns:1fr; }
+    .actions { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <div>
+      <h1>Business Glossary</h1>
+      <p>Explore sample business language, ownership and governance context in one place. This demo runs entirely in the browser and does not connect to Collibra.</p>
+    </div>
+    <div class="badge">Demo environment</div>
+  </section>
+
+  <section class="top-grid">
+    <div class="card mini">
+      <h3>Available actions</h3>
+      <div class="sub">Preview common governance workflows</div>
+      <div class="actions">
+        <button class="action-btn" data-action="Business Term">Create Business Term</button>
+        <button class="action-btn" data-action="Acronym">Create Acronym</button>
+        <button class="action-btn" data-action="Glossary">Create Glossary</button>
+        <button class="action-btn" data-action="Approval request">Request Approval</button>
+      </div>
+    </div>
+    <div class="card mini">
+      <h3>Recently viewed</h3>
+      <div class="sub">Your latest glossary activity</div>
+      <div id="recentList" class="mini-list"></div>
+    </div>
+    <div class="card mini">
+      <h3>Popular items</h3>
+      <div class="sub">Frequently referenced assets</div>
+      <div id="popularList" class="mini-list"></div>
+    </div>
+  </section>
+
+  <section class="card section">
+    <div class="section-title">
+      <div>
+        <h2>Search the glossary</h2>
+        <p>Search names and descriptions, then refine by type, glossary, status and owner.</p>
+      </div>
+      <button id="resetBtn" class="ghost-btn">Reset filters</button>
+    </div>
+
+    <div class="search-row">
+      <input id="searchInput" type="search" placeholder="Search terms, acronyms or descriptions…" />
+      <select id="typeFilter"><option value="">All asset types</option></select>
+      <select id="glossaryFilter"><option value="">All glossaries</option></select>
+      <select id="statusFilter"><option value="">All statuses</option></select>
+      <select id="ownerFilter"><option value="">All owners</option></select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="name">Name</th>
+            <th data-sort="type">Type</th>
+            <th data-sort="description">Description</th>
+            <th data-sort="glossary">Glossary</th>
+            <th data-sort="owner">Owner</th>
+            <th data-sort="status">Status</th>
+            <th data-sort="updated">Updated</th>
+          </tr>
+        </thead>
+        <tbody id="assetRows"></tbody>
+      </table>
+    </div>
+
+    <div class="footer-row">
+      <div id="resultCount">0 results</div>
+      <div id="pagination" class="pagination"></div>
+    </div>
+  </section>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop">
+  <div class="modal">
+    <h3 id="modalTitle">Demo action</h3>
+    <p id="modalText">This is a simulated workflow action for demonstration purposes.</p>
+    <div class="modal-grid">
+      <input placeholder="Name" />
+      <select><option>Draft</option><option>Candidate</option><option>Approved</option></select>
+      <input placeholder="Owner" />
+      <input placeholder="Glossary" />
+    </div>
+    <div class="modal-actions">
+      <button id="closeModal" class="ghost-btn">Cancel</button>
+      <button id="confirmModal" class="primary-btn">Create sample</button>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const assets = [
+  {name:'Customer',type:'Business Term',description:'A person or organisation that purchases or uses products and services.',glossary:'Customer & Party',owner:'Sophie van Dijk',status:'Approved',updated:'2026-09-18',pop:97},
+  {name:'Customer Lifetime Value',type:'Business Term',description:'Expected net value generated by a customer across the full commercial relationship.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-09-17',pop:94},
+  {name:'CLV',type:'Acronym',description:'Common acronym for Customer Lifetime Value.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-09-17',pop:90},
+  {name:'Active Customer',type:'Business Term',description:'A customer with at least one qualifying transaction or active service in the defined measurement period.',glossary:'Customer & Party',owner:'Sophie van Dijk',status:'Approved',updated:'2026-09-16',pop:88},
+  {name:'Customer Segment',type:'Business Term',description:'A defined grouping of customers based on shared characteristics, needs or behaviour.',glossary:'Customer & Party',owner:'Noah Jansen',status:'In Review',updated:'2026-09-15',pop:84},
+  {name:'Net Promoter Score',type:'Business Term',description:'A customer experience metric based on likelihood to recommend the organisation.',glossary:'Commercial Metrics',owner:'Emma Meijer',status:'Approved',updated:'2026-09-14',pop:82},
+  {name:'NPS',type:'Acronym',description:'Acronym for Net Promoter Score.',glossary:'Commercial Metrics',owner:'Emma Meijer',status:'Approved',updated:'2026-09-14',pop:79},
+  {name:'Revenue',type:'Business Term',description:'Income recognised from ordinary business activities before deduction of operating expenses.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-09-13',pop:95},
+  {name:'Gross Margin',type:'Business Term',description:'Revenue less cost of goods sold, expressed as an absolute amount or percentage.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-09-12',pop:86},
+  {name:'Operating Expense',type:'Business Term',description:'Costs incurred through normal day to day operations, excluding direct cost of goods sold.',glossary:'Finance',owner:'Eva Bakker',status:'Draft',updated:'2026-09-11',pop:61},
+  {name:'OPEX',type:'Acronym',description:'Acronym for Operating Expense.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-11',pop:72},
+  {name:'Capital Expenditure',type:'Business Term',description:'Funds used to acquire, improve or extend the useful life of long term assets.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-10',pop:73},
+  {name:'CAPEX',type:'Acronym',description:'Acronym for Capital Expenditure.',glossary:'Finance',owner:'Eva Bakker',status:'Approved',updated:'2026-09-10',pop:75},
+  {name:'Data Owner',type:'Business Term',description:'Accountable business role that makes decisions about the use, quality and protection of a data domain.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-09-09',pop:93},
+  {name:'Data Steward',type:'Business Term',description:'Role responsible for day to day coordination of data definitions, quality and issue resolution.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-09-09',pop:91},
+  {name:'Critical Data Element',type:'Business Term',description:'A data element considered essential for key business processes, reporting, risk or regulatory obligations.',glossary:'Data Governance',owner:'Yara de Wit',status:'Approved',updated:'2026-09-08',pop:89},
+  {name:'CDE',type:'Acronym',description:'Acronym for Critical Data Element.',glossary:'Data Governance',owner:'Yara de Wit',status:'Approved',updated:'2026-09-08',pop:80},
+  {name:'Data Quality Rule',type:'Business Term',description:'A measurable condition used to determine whether data meets an agreed expectation.',glossary:'Data Quality',owner:'Yara de Wit',status:'Approved',updated:'2026-09-07',pop:87},
+  {name:'Completeness',type:'Business Term',description:'Data Quality dimension measuring whether required data values are present.',glossary:'Data Quality',owner:'Yara de Wit',status:'Approved',updated:'2026-09-07',pop:76},
+  {name:'Accuracy',type:'Business Term',description:'Data Quality dimension measuring whether data correctly represents the real world object or event.',glossary:'Data Quality',owner:'Tom van Leeuwen',status:'Approved',updated:'2026-09-06',pop:78},
+  {name:'Timeliness',type:'Business Term',description:'Data Quality dimension measuring whether data is available within the required timeframe.',glossary:'Data Quality',owner:'Tom van Leeuwen',status:'In Review',updated:'2026-09-06',pop:68},
+  {name:'AI System',type:'Business Term',description:'A machine based system designed to generate outputs such as predictions, recommendations or decisions.',glossary:'AI Governance',owner:'Julia Hendriks',status:'Approved',updated:'2026-09-05',pop:85},
+  {name:'Model Owner',type:'Business Term',description:'Role accountable for the lifecycle, intended use, controls and performance of an analytical or AI model.',glossary:'AI Governance',owner:'Julia Hendriks',status:'Approved',updated:'2026-09-05',pop:83},
+  {name:'High Risk AI',type:'Business Term',description:'AI use classified as high risk under the applicable governance or regulatory framework.',glossary:'AI Governance',owner:'Daan Mulder',status:'In Review',updated:'2026-09-04',pop:81},
+  {name:'Personally Identifiable Information',type:'Business Term',description:'Information that identifies or can reasonably be linked to a specific individual.',glossary:'Privacy & Compliance',owner:'Daan Mulder',status:'Approved',updated:'2026-09-03',pop:92},
+  {name:'PII',type:'Acronym',description:'Acronym for Personally Identifiable Information.',glossary:'Privacy & Compliance',owner:'Daan Mulder',status:'Approved',updated:'2026-09-03',pop:88},
+  {name:'Retention Period',type:'Business Term',description:'The period for which information must or may be retained before disposal or archival.',glossary:'Privacy & Compliance',owner:'Sara Vos',status:'Approved',updated:'2026-09-02',pop:70},
+  {name:'Legal Basis',type:'Business Term',description:'The lawful justification that permits processing of personal data.',glossary:'Privacy & Compliance',owner:'Sara Vos',status:'Approved',updated:'2026-09-02',pop:74},
+  {name:'Product',type:'Business Term',description:'A market offering that delivers defined value to a customer or user.',glossary:'Product',owner:'Noah Jansen',status:'Approved',updated:'2026-09-01',pop:90},
+  {name:'Product Family',type:'Business Term',description:'A grouping of related products that share common capabilities, positioning or lifecycle ownership.',glossary:'Product',owner:'Noah Jansen',status:'Draft',updated:'2026-08-31',pop:65},
+  {name:'Service Level Agreement',type:'Business Term',description:'An agreed commitment describing the expected service level and associated responsibilities.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-30',pop:84},
+  {name:'SLA',type:'Acronym',description:'Acronym for Service Level Agreement.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-30',pop:85},
+  {name:'Incident',type:'Business Term',description:'An unplanned event that disrupts or reduces the quality of an operational service.',glossary:'Operations',owner:'Finn Kuiper',status:'Approved',updated:'2026-08-29',pop:77},
+  {name:'Key Performance Indicator',type:'Business Term',description:'A measurable value used to assess progress toward a defined business objective.',glossary:'Enterprise Performance',owner:'Emma Meijer',status:'Approved',updated:'2026-08-28',pop:96},
+  {name:'KPI',type:'Acronym',description:'Acronym for Key Performance Indicator.',glossary:'Enterprise Performance',owner:'Emma Meijer',status:'Approved',updated:'2026-08-28',pop:93},
+  {name:'Risk Appetite',type:'Business Term',description:'The amount and type of risk an organisation is willing to accept in pursuit of objectives.',glossary:'Risk',owner:'Mats Vermeer',status:'Approved',updated:'2026-08-27',pop:71},
+  {name:'Control',type:'Business Term',description:'A measure designed to prevent, detect or reduce the likelihood or impact of an identified risk.',glossary:'Risk',owner:'Mats Vermeer',status:'In Review',updated:'2026-08-27',pop:69},
+  {name:'Business Glossary',type:'Glossary',description:'Curated collection of agreed business definitions and governance context.',glossary:'Data Governance',owner:'Nora Visser',status:'Approved',updated:'2026-08-26',pop:89},
+  {name:'Commercial Metrics Glossary',type:'Glossary',description:'Glossary containing standard commercial KPIs and customer value measures.',glossary:'Commercial Metrics',owner:'Lars de Boer',status:'Approved',updated:'2026-08-25',pop:75},
+  {name:'Finance Glossary',type:'Glossary',description:'Glossary containing finance, accounting and management reporting terminology.',glossary:'Finance',owner:'Milan Smit',status:'Approved',updated:'2026-08-25',pop:78},
+  {name:'AI Governance Glossary',type:'Glossary',description:'Glossary containing AI roles, risk classifications and governance concepts.',glossary:'AI Governance',owner:'Julia Hendriks',status:'In Review',updated:'2026-08-24',pop:73}
+];
+
+const state = { page:1, perPage:10, sortKey:'name', sortDir:'asc' };
+const $ = id => document.getElementById(id);
+const searchInput = $('searchInput');
+const filters = { type:$('typeFilter'), glossary:$('glossaryFilter'), status:$('statusFilter'), owner:$('ownerFilter') };
+
+function unique(key){ return [...new Set(assets.map(a=>a[key]))].sort((a,b)=>a.localeCompare(b)); }
+function fillSelect(el, values){ values.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; el.appendChild(o); }); }
+fillSelect(filters.type, unique('type'));
+fillSelect(filters.glossary, unique('glossary'));
+fillSelect(filters.status, unique('status'));
+fillSelect(filters.owner, unique('owner'));
+
+function esc(s=''){ return s.replace(/[&<>\"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;' }[c])); }
+function hi(text, q){ if(!q) return esc(text); const safe=esc(text); const r=new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','ig'); return safe.replace(r,'<mark>$1</mark>'); }
+function badgeClass(type){ return type==='Acronym'?'acronym':type==='Glossary'?'glossary':'term'; }
+function statusClass(s){ return s==='Approved'?'approved':s==='Draft'?'draft':'review'; }
+
+function filtered(){
+  const q=searchInput.value.trim().toLowerCase();
+  return assets.filter(a => {
+    const matchesQ = !q || a.name.toLowerCase().includes(q) || a.description.toLowerCase().includes(q) || a.glossary.toLowerCase().includes(q);
+    return matchesQ && (!filters.type.value || a.type===filters.type.value) && (!filters.glossary.value || a.glossary===filters.glossary.value) && (!filters.status.value || a.status===filters.status.value) && (!filters.owner.value || a.owner===filters.owner.value);
+  }).sort((a,b)=>{
+    const va=a[state.sortKey], vb=b[state.sortKey];
+    const cmp = String(va).localeCompare(String(vb), undefined, {numeric:true, sensitivity:'base'});
+    return state.sortDir==='asc'?cmp:-cmp;
+  });
+}
+
+function render(){
+  const list=filtered();
+  const pages=Math.max(1,Math.ceil(list.length/state.perPage));
+  if(state.page>pages) state.page=pages;
+  const start=(state.page-1)*state.perPage;
+  const page=list.slice(start,start+state.perPage);
+  const q=searchInput.value.trim();
+  $('assetRows').innerHTML = page.map(a=>`<tr data-name="${esc(a.name)}">
+    <td><div class="asset-name">${hi(a.name,q)}</div><div class="muted" style="font-size:12px;margin-top:4px">ID DEMO ${Math.abs(hash(a.name))%9000+1000}</div></td>
+    <td><span class="pill ${badgeClass(a.type)}">${esc(a.type)}</span></td>
+    <td><div class="asset-desc">${hi(a.description,q)}</div></td>
+    <td>${hi(a.glossary,q)}</td>
+    <td><span class="owner">${esc(a.owner)}</span></td>
+    <td><span class="pill ${statusClass(a.status)}"><span class="status-dot status-${statusClass(a.status)}"></span>${esc(a.status)}</span></td>
+    <td>${esc(a.updated)}</td>
+  </tr>`).join('');
+  $('resultCount').textContent = `${list.length} result${list.length===1?'':'s'} · showing ${list.length?start+1:0}–${Math.min(start+state.perPage,list.length)}`;
+  $('pagination').innerHTML = Array.from({length:pages},(_,i)=>`<button class="page-btn ${i+1===state.page?'active':''}" data-page="${i+1}">${i+1}</button>`).join('');
+  document.querySelectorAll('.page-btn').forEach(b=>b.onclick=()=>{state.page=Number(b.dataset.page); render();});
+  document.querySelectorAll('#assetRows tr').forEach(r=>r.onclick=()=>showToast(`${r.dataset.name} opened in demo view`));
+}
+function hash(s){ let h=0; for(let i=0;i<s.length;i++) h=((h<<5)-h)+s.charCodeAt(i)|0; return h; }
+
+[searchInput,...Object.values(filters)].forEach(el=>el.addEventListener('input',()=>{state.page=1; render();}));
+$('resetBtn').onclick=()=>{ searchInput.value=''; Object.values(filters).forEach(f=>f.value=''); state.page=1; state.sortKey='name'; state.sortDir='asc'; render(); };
+document.querySelectorAll('th[data-sort]').forEach(th=>th.onclick=()=>{ const k=th.dataset.sort; if(state.sortKey===k) state.sortDir=state.sortDir==='asc'?'desc':'asc'; else {state.sortKey=k; state.sortDir='asc';} render(); });
+
+const recentNames=['AI System','Customer Lifetime Value','Data Owner'];
+$('recentList').innerHTML=recentNames.map(n=>mini(assets.find(a=>a.name===n))).join('');
+$('popularList').innerHTML=[...assets].sort((a,b)=>b.pop-a.pop).slice(0,3).map(mini).join('');
+function mini(a){return `<div class="mini-item"><div class="left"><div class="name">${esc(a.name)}</div><div class="meta">${esc(a.glossary)}</div></div><span class="pill ${badgeClass(a.type)}">${esc(a.type)}</span></div>`;}
+
+const backdrop=$('modalBackdrop');
+document.querySelectorAll('[data-action]').forEach(btn=>btn.onclick=()=>{ $('modalTitle').textContent=btn.dataset.action; $('modalText').textContent=`This simulates the ${btn.dataset.action} workflow. No data is sent anywhere.`; backdrop.style.display='flex'; });
+$('closeModal').onclick=()=>backdrop.style.display='none';
+$('confirmModal').onclick=()=>{ backdrop.style.display='none'; showToast('Sample action completed'); };
+backdrop.onclick=e=>{ if(e.target===backdrop) backdrop.style.display='none'; };
+function showToast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(window.__toast); window.__toast=setTimeout(()=>t.classList.remove('show'),2200); }
+
+render();
+</script>
+</body>
+</html>
